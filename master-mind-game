@@ -1,0 +1,103 @@
+using System;
+
+namespace MasterMind
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+
+        {
+            
+            Console.WriteLine("Please choose the difficultylevel? [easy, medium, hard]"); 
+            string difficultylevel;
+            do
+            {
+                difficultylevel = Console.ReadLine().ToLower();
+                if (difficultylevel != "easy" && difficultylevel != "medium" && difficultylevel != "hard") 
+                {
+                    Console.WriteLine("Invalid input. Please select again.");
+                }
+            } while (difficultylevel != "easy" && difficultylevel != "medium" && difficultylevel != "hard");
+
+            Random random = new Random();
+            
+
+            int MinNum = 0; 
+            int MaxNum = 0;
+            int numberofdigit = 0;
+            
+            switch (difficultylevel)
+            {
+                case "easy":
+                    MinNum = 100;
+                    MaxNum = 999;
+                    numberofdigit = 3;
+                    break;
+                case "medium":
+                    MinNum = 1000;
+                    MaxNum = 9999;
+                    numberofdigit = 4;
+                    break;
+                case "hard":
+                    MinNum = 10000;
+                    MaxNum = 99999;
+                    numberofdigit = 5;
+                    break;
+            }
+
+
+            string computerGuess = random.Next(MinNum, MaxNum + 1).ToString();
+           
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"pelease enter your {numberofdigit} digitnumber");
+                string userGuess = Console.ReadLine();
+
+                operation(userGuess: userGuess, computerGuess: computerGuess);
+
+                if (userGuess == computerGuess)
+                {
+                    Console.WriteLine("\ncongratulations You won!");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("\nIncorrect guess. Try again.");
+                }
+
+                if (i == 9)
+                {
+                    Console.WriteLine($"\nYou lost. The correct answer was: {computerGuess}");
+                }
+            }
+
+        }
+        static void operation(string userGuess, string computerGuess)
+        {
+            for (int i = 0; i < userGuess.Length; i++)
+            {
+                if (userGuess[i] == computerGuess[i])
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(userGuess[i]);
+                }
+                else if (computerGuess.Contains(userGuess[i]))
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(userGuess[i]);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(userGuess[i]);
+                }
+                Console.ResetColor();
+                
+            }
+        }
+
+    }
+
+}
